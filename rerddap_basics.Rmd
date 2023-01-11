@@ -7,8 +7,10 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+# whatever is in this chunk gets run before any other chunk
+# put your libary loading here:
+#library("rerddap")
 ```
-
 
 ```{r libraries setup}
 install.package("rerddap")
@@ -16,8 +18,36 @@ install.package("rerddap")
 
 ```{r check rerrdap is installed by printing version}
 rerddap::version()
+rerddap::servers()  # list of "default" servers
+
+# to select a single ERDDAP server to use:
+database <- "https://upwell.pfeg.noaa.gov/erddap/"
+Sys.setenv(RERDDAP_DEFAULT_URL = database)
+# this is required when using servers not listed by rerddap::servers()
 ```
 
 ```{r rerddap griddap usage}
+LAT <- c(22., 51.)
+LON <- c(-140., -105)
+TIME <- c("2017-01-01", "2017-01-02")
+DATASET_ID <- "dhw_5km"
 
+# dhw_5km is a temperature dataset recommended by Dan
+dataset_result <- rerddap::griddap(
+    DATASET_ID,
+    latitude = LAT, 
+    longitude = LON, 
+    time = TIME, 
+    fields = 'CRW_SSTANOMALY',
+    fmt = "csv"  # (optional) tells to download as .csv instead of .nc
+)
 ```
+
+```{r save downloaded file to a location}
+write.csv(
+    dataset_result,
+    paste0(DATASET_ID, "_query.csv")
+)
+```
+
+view the vignette in `??rerddap` "rerddap::Using_rerddap" for next steps.
