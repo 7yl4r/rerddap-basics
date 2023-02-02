@@ -8,16 +8,21 @@ output: html_document
 This document was created as we walked through basic usage of R, Rstudio, ERDDAP, and the rerddap package.
 A similar document for working with ERDDAP data in python can be viewed and run using google colab [here](https://colab.research.google.com/drive/1D--oaQNfCw8Qc-fCkR8ps9_ihEtKpXZm?usp=sharing).
 
+Libraries need to be installed before being able to run this code.
+This setup only needs to be done once per R installation.
+You can do this in the R console, run it as a chunk, or use a more fancy package management tool like packrat.
+```{r libraries setup}
+install.packages("rerddap")
+```
+
 ```{r setup, include=FALSE}
+# this code chunk is for setup stuff for this document
 knitr::opts_chunk$set(echo = TRUE)
 # whatever is in this chunk gets run before any other chunk
 # put your libary loading here:
 #library("rerddap")
 ```
 
-```{r libraries setup}
-install.package("rerddap")
-```
 
 ```{r check rerrdap is installed by printing version}
 rerddap::version()
